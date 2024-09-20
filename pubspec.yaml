@@ -1,4 +1,4 @@
-name: t_store
+name: flutter_structure
 description: A new Flutter project.
 publish_to: "none"
 version: 1.0.0+1
@@ -53,6 +53,7 @@ dependencies:
   go_router: ^14.2.7
   hive:
   hive_flutter:
+  flutter_flavorizr: ^2.2.3
 
   #--------------- ./ PACKAGES END ------------------#
 

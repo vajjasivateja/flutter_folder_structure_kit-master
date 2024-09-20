@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:t_store/core/common/logger_dev.dart';
+import 'package:flutter_structure/core/common/logger_dev.dart';
 
 part 'base_bloc.freezed.dart';
 part 'base_event.dart';

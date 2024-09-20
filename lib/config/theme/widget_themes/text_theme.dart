@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:t_store/core/resourse/app_colors.dart';
+import 'package:flutter_structure/core/resourse/app_colors.dart';
 
 /// Custom Class for Light & Dark Text Themes
 class AppTextTheme {

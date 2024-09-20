@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:t_store/core/utils/utils.dart';
+import 'package:flutter_structure/core/utils/utils.dart';
 
 import '../../common/logger_dev.dart';
 import '../data_source_model/network_request/network_request_body.dart';
