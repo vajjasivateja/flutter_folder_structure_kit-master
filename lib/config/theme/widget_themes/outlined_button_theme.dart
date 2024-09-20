@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:t_store/core/resourse/app_colors.dart';
 
-import '../../../utils/constants/colors.dart';
-import '../../../utils/constants/sizes.dart';
+import '../../../core/resourse/sizes.dart';
 
 
 /* -- Light & Dark Outlined Button Themes -- */
-class TOutlinedButtonTheme {
-  TOutlinedButtonTheme._(); //To avoid creating instances
+class AppOutlinedButtonTheme {
+  AppOutlinedButtonTheme._(); //To avoid creating instances
 
 
   /* -- Light Theme -- */
   static final lightOutlinedButtonTheme  = OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       elevation: 0,
-      foregroundColor: TColors.dark,
-      side: const BorderSide(color: TColors.borderPrimary),
-      textStyle: const TextStyle(fontSize: 16, color: TColors.black, fontWeight: FontWeight.w600),
+      foregroundColor: AppColors.dark,
+      side: const BorderSide(color: AppColors.borderPrimary),
+      textStyle: const TextStyle(fontSize: 16, color: AppColors.black, fontWeight: FontWeight.w600),
       padding: const EdgeInsets.symmetric(vertical: TSizes.buttonHeight, horizontal: 20),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(TSizes.buttonRadius)),
     ),
@@ -24,9 +24,9 @@ class TOutlinedButtonTheme {
   /* -- Dark Theme -- */
   static final darkOutlinedButtonTheme = OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
-      foregroundColor: TColors.light,
-      side: const BorderSide(color: TColors.borderPrimary),
-      textStyle: const TextStyle(fontSize: 16, color: TColors.textWhite, fontWeight: FontWeight.w600),
+      foregroundColor: AppColors.light,
+      side: const BorderSide(color: AppColors.borderPrimary),
+      textStyle: const TextStyle(fontSize: 16, color: AppColors.textWhite, fontWeight: FontWeight.w600),
       padding: const EdgeInsets.symmetric(vertical: TSizes.buttonHeight, horizontal: 20),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(TSizes.buttonRadius)),
     ),

@@ -1,12 +1,10 @@
 name: t_store
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.5 <4.0.0'
-
-
+  sdk: ">=3.0.5 <4.0.0"
 
 #--------------- PACKAGES ------------------#
 dependencies:
@@ -14,30 +12,47 @@ dependencies:
     sdk: flutter
 
   # Utility Packages
-  http: ^1.1.0
-  intl: ^0.18.1
-  logger: ^2.0.1
-  url_launcher: ^6.1.12
-  flutter_native_splash: ^2.3.1
-  smooth_page_indicator: ^1.1.0
+  dio:
+  http:
+  intl:
+  logger:
+  url_launcher:
+  flutter_native_splash:
+  flutter_bloc:
+  bloc:
+  bloc_concurrency:
+  flutter_form_bloc:
 
+  freezed_annotation:
+  json_annotation:
+  dartz:
+  infinite_scroll_pagination:
+  uuid:
+
+  get_it:
+  injectable:
+  get_storage: ^2.1.1
   # Icons
   iconsax: ^0.0.8
   cupertino_icons: ^1.0.2
 
-  # State Management
-  get: ^4.6.5
-  get_storage: ^2.1.1
-
-  # Product Specific
-  readmore: ^2.2.0
-  carousel_slider: ^4.2.1
-  flutter_rating_bar: ^4.0.1
-  capped_progress_indicator: ^0.0.2
-
   connectivity_plus:
-
-
+  shared_preferences:
+  share_plus:
+  flutter_html:
+  path_provider:
+  email_validator:
+  google_maps_flutter:
+  maps_launcher:
+  geolocator:
+  line_awesome_flutter:
+  flutter_svg: 2.0.5
+  cached_network_image:
+  smooth_page_indicator:
+  pinput: ^5.0.0
+  go_router: ^14.2.7
+  hive:
+  hive_flutter:
 
   #--------------- ./ PACKAGES END ------------------#
 
@@ -45,14 +60,18 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^2.0.0
-
+  flutter_lints:
+  build_runner:
+  freezed:
+  json_serializable:
+  hive_generator:
 
 flutter:
   uses-material-design: true
 
   #--------------- LOCAL ASSETS ------------------#
   assets:
+    - assets/fonts/
     - assets/logos/
     - assets/icons/brands/
     - assets/images/content/
@@ -66,20 +85,18 @@ flutter:
 
   #--------------- LOCAL FONTS ------------------#
   fonts:
-    - family: Poppins
+    - family: PoppinsBold
+      fonts:
+        - asset: assets/fonts/Poppins-Bold.ttf
+    - family: PoppinsLight
       fonts:
         - asset: assets/fonts/Poppins-Light.ttf
-          weight: 300
-        - asset: assets/fonts/Poppins-Regular.ttf
-          weight: 400
-        - asset: assets/fonts/Poppins-Italic.ttf
-          style: italic
+    - family: PoppinsMedium
+      fonts:
         - asset: assets/fonts/Poppins-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/Poppins-MediumItalic.ttf
-          weight: 500
-          style: italic
+    - family: PoppinsRegular
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+    - family: PoppinsSemiBold
+      fonts:
         - asset: assets/fonts/Poppins-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/Poppins-Bold.ttf
-          weight: 800

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:t_store/utils/constants/text_strings.dart';
 import 'package:t_store/config/theme/theme.dart';
 
 class App extends StatelessWidget {
@@ -8,16 +6,19 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: TTexts.appName,
+    return MaterialApp(
+      title: "Flutter Structure",
       themeMode: ThemeMode.system,
-      theme: TAppTheme.lightTheme,
-      darkTheme: TAppTheme.darkTheme,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
       // initialBinding: GeneralBindings(),
       home: const Scaffold(
         body: Center(
-          child: Text('Awesome! 🎊 Project Structure is set up and running. \n Happy Coding 🎊', textAlign: TextAlign.center,),
+          child: Text(
+            'Awesome! 🎊 Project Structure is set up and running. \n Happy Coding 🎊',
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );
