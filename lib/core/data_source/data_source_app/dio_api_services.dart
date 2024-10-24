@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_structure/core/utils/utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../common/logger_dev.dart';
 import '../data_source_model/network_request/network_request_body.dart';
@@ -28,13 +29,13 @@ class NetworkRequest {
 
 class _PreparedNetworkRequest<Model> {
   const _PreparedNetworkRequest(
-    this.request,
-    // this.parser,
-    this.dio,
-    this.headers,
-    this.onSendProgress,
-    this.onReceiveProgress,
-  );
+      this.request,
+      // this.parser,
+      this.dio,
+      this.headers,
+      this.onSendProgress,
+      this.onReceiveProgress,
+      );
 
   final NetworkRequest request;
 
@@ -115,7 +116,78 @@ class NetworkService {
       ..options.headers = composeHeaders("")
       ..options.connectTimeout = const Duration(seconds: 5000) // 5 seconds
       ..options.receiveTimeout = const Duration(seconds: 3000); // 3 seconds
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          // Retrieve access token from SharedPreferences
+          final prefs = await SharedPreferences.getInstance();
+          String? accessToken = prefs.getString('access_token');
+
+          // Attach access token to headers if available
+          if (accessToken != null) {
+            options.headers["Authorization"] = "Bearer $accessToken";
+          }
+          return handler.next(options); // Proceed with the request
+        },
+        onError: (error, handler) async {
+          // Check if the error is due to an expired access token (401)
+          if (error.response?.statusCode == 401) {
+            try {
+              // Refresh token logic
+              await _refreshToken();
+
+              // Retry the request with the new access token
+              final Dio newDio = Dio();
+              final prefs = await SharedPreferences.getInstance();
+              String? newAccessToken = prefs.getString('access_token');
+              error.requestOptions.headers["Authorization"] = "Bearer $newAccessToken";
+
+              final retryResponse = await newDio.request(
+                error.requestOptions.path,
+                options: Options(
+                  method: error.requestOptions.method,
+                  headers: error.requestOptions.headers,
+                ),
+                data: error.requestOptions.data,
+                queryParameters: error.requestOptions.queryParameters,
+              );
+              return handler.resolve(retryResponse);
+            } catch (e) {
+              // If refresh token fails, log out or take appropriate action
+              // _logout();
+            }
+          }
+          // Proceed with other errors
+          return handler.next(error);
+        },
+      ),
+    );
     return dio;
+  }
+
+  // Helper function to refresh the token
+  Future<void> _refreshToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? refreshToken = prefs.getString('refresh_token');
+
+    if (refreshToken == null) {
+      throw Exception('No refresh token available');
+    }
+
+    try {
+      final response = await _dio!.post('/auth/refresh', data: {
+        'refresh_token': refreshToken,
+      });
+
+      // Extract and save new tokens
+      String newAccessToken = response.data['access_token'];
+      String newRefreshToken = response.data['refresh_token'];
+
+      await prefs.setString('access_token', newAccessToken);
+      await prefs.setString('refresh_token', newRefreshToken);
+    } catch (e) {
+      throw Exception('Failed to refresh token');
+    }
   }
 
   Map<String, String> composeHeaders(String? token) {
@@ -125,22 +197,14 @@ class NetworkService {
     }
     _headers['Content-Type'] = 'application/json';
     _headers['Accept'] = 'application/json';
-    _headers["locale"] = "en";
-    _headers["Accept-Language"] = "en-US,en;q=0.9";
-    _headers["Access-Control-Allow-Origin"] = "*";
-    _headers["Access-Control-Allow-Credentials"] = "true";
-    _headers["Access-Control-Allow-Private-Networ"] = "true";
-
-    _headers["Access-Control-Allow-Headers"] = "Origin,Content-Type,Authorization";
-    _headers["Access-Control-Allow-Method"] = "POST, OPTIONS";
     return _headers;
   }
 
   Future<NetworkResponse<Model>> execute<Model>(
-    NetworkRequest request, {
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
-  }) async {
+      NetworkRequest request, {
+        ProgressCallback? onSendProgress,
+        ProgressCallback? onReceiveProgress,
+      }) async {
     _dio = await _getDefaultDioClient();
     final req = _PreparedNetworkRequest<Model>(
       request,

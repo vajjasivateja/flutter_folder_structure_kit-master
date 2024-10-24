@@ -8,7 +8,6 @@ class NetworkResponse<Model> with _$NetworkResponse {
   const factory NetworkResponse.ok(Model data) = Ok;
 
   const factory NetworkResponse.invalidParameters(String message, int statusCode) = InvalidParameters;
-
   const factory NetworkResponse.noAuth(String message, int statusCode) = NoAuth; //401
   const factory NetworkResponse.noAccess(String message, int statusCode) = NoAccess; //403
   const factory NetworkResponse.badRequest(String message, int statusCode) = BadRequest; //400
